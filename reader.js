@@ -9,7 +9,7 @@
   const WORDS_PER_MINUTE = 220;
 
   const state = {
-    bookTitle: 'Manuskript',
+    bookTitle: 'Koden',
     bookSubtitle: '',
     chapters: [],
     currentView: 'cover', // 'cover' | 'chapter'
@@ -148,7 +148,7 @@
     const normalized = markdown.replace(/\r\n?/g, '\n');
     const lines = normalized.split('\n');
 
-    let bookTitle = 'Manuskript';
+    let bookTitle = 'Koden';
     let bookSubtitle = '';
     const chapters = [];
 
