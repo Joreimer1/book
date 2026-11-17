@@ -9,7 +9,7 @@
   const WORDS_PER_MINUTE = 220;
 
   const state = {
-    bookTitle: 'Koden',
+    bookTitle: 'När vattnet lär sig tänka',
     bookSubtitle: '',
     chapters: [],
     currentView: 'cover', // 'cover' | 'chapter'
@@ -125,18 +125,24 @@
      Markdown Loading & Parsing
      ------------------------------------------------------------------------ */
   async function loadManuscriptText() {
-    try {
-      const response = await fetch('./manuskript.md', { cache: 'no-cache' });
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+    const candidates = [
+      encodeURI('./När vattnet lär sig tänka.md'),
+      './manuskript.md',
+    ];
+    for (const url of candidates) {
+      try {
+        const response = await fetch(url, { cache: 'no-cache' });
+        if (response.ok) {
+          return await response.text();
+        }
+      } catch (err) {
+        // Continue to next candidate
       }
-      return await response.text();
-    } catch (err) {
-      if (typeof window.MANUSKRIPT_FALLBACK === 'string' && window.MANUSKRIPT_FALLBACK.length > 0) {
-        return window.MANUSKRIPT_FALLBACK;
-      }
-      throw err;
     }
+    if (typeof window.MANUSKRIPT_FALLBACK === 'string' && window.MANUSKRIPT_FALLBACK.length > 0) {
+      return window.MANUSKRIPT_FALLBACK;
+    }
+    throw new Error('Kunde inte läsa in manuskriptet.');
   }
 
   function countWords(text) {
@@ -149,7 +155,7 @@
     const normalized = markdown.replace(/\r\n?/g, '\n');
     const lines = normalized.split('\n');
 
-    let bookTitle = 'Koden';
+    let bookTitle = 'När vattnet lär sig tänka';
     let bookSubtitle = '';
     const chapters = [];
 
