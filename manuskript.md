@@ -1,8 +1,4 @@
 # Manuskript
-
-> **Senast reviderad:** Jag har manuellt ändrat lite i kapitel 3, kan du bara sammanställa att manuscript och storybible stämmer överens
-
-
 ---
 
 ## Kapitel 1: Den överflödige arkitekten
