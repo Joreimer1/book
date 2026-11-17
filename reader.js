@@ -646,12 +646,19 @@
     showToast(`Bokmärke sparat i ${ch.title}`);
   }
 
-  function removeBookmark() {
+  function removeBookmark(e) {
+    if (e && typeof e.preventDefault === 'function') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     state.bookmark = null;
     saveState();
     updateBookmarkUI();
     showToast('Bokmärke borttaget.');
   }
+
+  // Expose globally for inline onclick fallback (especially for mobile Safari)
+  window.__bokreaderRemoveBookmark = removeBookmark;
 
   function performSearch(query) {
     const q = query.trim();
@@ -812,7 +819,19 @@
     });
     if (el.removeBookmarkBtn) {
       el.removeBookmarkBtn.addEventListener('click', removeBookmark);
+      el.removeBookmarkBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        removeBookmark(e);
+      }, { passive: false });
     }
+
+    // Document-level delegation for bookmark removal (safe for mobile WebKit)
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest && e.target.closest('#removeBookmarkBtn');
+      if (btn) {
+        removeBookmark(e);
+      }
+    });
 
     el.searchToggleBtn.addEventListener('click', openSearch);
     el.searchCloseBtn.addEventListener('click', closeSearch);

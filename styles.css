@@ -421,13 +421,12 @@ body {
 
 .bookmark-banner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 10px;
   background: var(--accent-soft);
   border: 1px solid var(--accent);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 12px;
   margin-bottom: 14px;
 }
 
@@ -436,7 +435,7 @@ body {
 .bookmark-banner-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 
@@ -450,6 +449,7 @@ body {
 
 .bookmark-banner-loc {
   font-size: 13px;
+  font-weight: 500;
   color: var(--text);
   white-space: nowrap;
   overflow: hidden;
@@ -459,30 +459,43 @@ body {
 .bookmark-banner-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
+  gap: 8px;
+  width: 100%;
 }
 
 .text-action-btn {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 7px;
-  padding: 6px 10px;
-  font-size: 12px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   transition: opacity 0.15s ease, background 0.15s ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .text-action-btn:hover {
   opacity: 0.9;
 }
 
+.text-action-btn:active {
+  transform: scale(0.98);
+}
+
 .text-action-btn-secondary {
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text);
   border: 1px solid var(--border);
 }
 
