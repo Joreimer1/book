@@ -42,6 +42,7 @@
     bookmarkBanner: document.getElementById('bookmarkBanner'),
     bookmarkBannerLoc: document.getElementById('bookmarkBannerLoc'),
     jumpToBookmarkBtn: document.getElementById('jumpToBookmarkBtn'),
+    removeBookmarkBtn: document.getElementById('removeBookmarkBtn'),
     bookmarkBtn: document.getElementById('bookmarkBtn'),
     searchToggleBtn: document.getElementById('searchToggleBtn'),
     searchModal: document.getElementById('searchModal'),
@@ -435,6 +436,11 @@
       state.bookmark &&
       state.bookmark.chapterIndex === state.currentChapterIndex;
     el.bookmarkBtn.classList.toggle('is-active', Boolean(isBookmarkedHere));
+    el.bookmarkBtn.title = isBookmarkedHere ? 'Ta bort bokmärke (klicka för att ta bort)' : 'Spara bokmärke';
+    el.bookmarkBtn.setAttribute(
+      'aria-label',
+      isBookmarkedHere ? 'Ta bort bokmärke' : 'Spara bokmärke'
+    );
   }
 
   function showCover() {
@@ -615,11 +621,20 @@
     }, 2400);
   }
 
-  function saveBookmark() {
+  function toggleBookmark() {
     if (state.currentView !== 'chapter') {
       showToast('Öppna ett kapitel för att spara ett bokmärke.');
       return;
     }
+    const isBookmarkedHere =
+      state.bookmark &&
+      state.bookmark.chapterIndex === state.currentChapterIndex;
+
+    if (isBookmarkedHere) {
+      removeBookmark();
+      return;
+    }
+
     const ch = state.chapters[state.currentChapterIndex];
     state.bookmark = {
       chapterIndex: state.currentChapterIndex,
@@ -629,6 +644,13 @@
     saveState();
     updateBookmarkUI();
     showToast(`Bokmärke sparat i ${ch.title}`);
+  }
+
+  function removeBookmark() {
+    state.bookmark = null;
+    saveState();
+    updateBookmarkUI();
+    showToast('Bokmärke borttaget.');
   }
 
   function performSearch(query) {
@@ -779,7 +801,7 @@
       }
     });
 
-    el.bookmarkBtn.addEventListener('click', saveBookmark);
+    el.bookmarkBtn.addEventListener('click', toggleBookmark);
     el.jumpToBookmarkBtn.addEventListener('click', () => {
       if (!state.bookmark) return;
       closeToc();
@@ -788,6 +810,9 @@
         window.scrollTo({ top: state.bookmark.scrollY || 0, behavior: 'smooth' });
       }, 60);
     });
+    if (el.removeBookmarkBtn) {
+      el.removeBookmarkBtn.addEventListener('click', removeBookmark);
+    }
 
     el.searchToggleBtn.addEventListener('click', openSearch);
     el.searchCloseBtn.addEventListener('click', closeSearch);

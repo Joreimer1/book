@@ -212,6 +212,10 @@ body {
   background: var(--accent-soft);
 }
 
+.icon-btn.is-active svg path {
+  fill: currentColor;
+}
+
 .aa-icon {
   font-family: var(--font-serif);
   font-size: 16px;
@@ -452,6 +456,13 @@ body {
   text-overflow: ellipsis;
 }
 
+.bookmark-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
 .text-action-btn {
   background: var(--accent);
   color: #fff;
@@ -462,6 +473,23 @@ body {
   font-weight: 600;
   cursor: pointer;
   flex-shrink: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.text-action-btn:hover {
+  opacity: 0.9;
+}
+
+.text-action-btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.text-action-btn-secondary:hover {
+  background: var(--bg-muted);
+  color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .toc-list {
